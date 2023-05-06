@@ -13,7 +13,7 @@ namespace MessageQueues.Task1.MainProcessingService
             var workingDirectory = Path.Combine(currentDirectory, dataDirectory);
 
             var factory = new ConnectionFactory();
-            factory.Uri = new Uri("amqps://hsgelczq:swh7gTHGiCEH9__HvZG6RnRuVbGReFbG@hawk.rmq.cloudamqp.com/hsgelczq");
+            factory.Uri = new Uri("****");
 
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
