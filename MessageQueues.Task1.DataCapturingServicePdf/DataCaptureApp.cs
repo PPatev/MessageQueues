@@ -10,23 +10,6 @@ namespace MessageQueues.Task1.DataCapturingServicePdf
 {
     public static class DataCaptureApp
     {
-        //
-
-        //public static void CreateHostBuilder(string[] args)
-        //{
-        //    IConfiguration configuration = new ConfigurationBuilder()
-        //        .AddJsonFile("appsettings.json")
-        //        .Build();
-
-        //    var host = Host.CreateDefaultBuilder(args).ConfigureServices(services => 
-        //    {
-        //        services.Configure<RabbitMQConfig>(configuration.GetSection(RabbitMQSection));
-
-        //        services.AddScoped<IRabbitMQService, RabbitMQService>();
-
-        //    }).Build();
-        //}
-
         private const string RabbitMQSection = "RabbitMQConfig";
         private const string FileTransferSection = "FileTransferConfig";
         private static IConfiguration _configuration { get; set; }
@@ -50,25 +33,43 @@ namespace MessageQueues.Task1.DataCapturingServicePdf
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RabbitMQConfig>(_configuration.GetSection(RabbitMQSection));
+            services.Configure<RabbitMqConfig>(_configuration.GetSection(RabbitMQSection));
             services.Configure<FileTransferConfig>(_configuration.GetSection(FileTransferSection));
-            services.AddScoped<IMessageProducer, RabbitMQProducer>();
+
+            services.AddSingleton<IConnection>(service => 
+            {
+                var rabbitMQConfig = service.GetRequiredService<IOptions<RabbitMqConfig>>().Value;
+                var factory = new ConnectionFactory();
+                factory.Uri = new Uri(rabbitMQConfig.ConnectionString);
+
+                return factory.CreateConnection();
+            });
+            services.AddSingleton<IMessageProducer, RabbitMqFileProducer>();
             services.AddScoped<ITransferingService, FileTransferingService>();
         }
 
         private static void CreateExchange(IServiceProvider provider)
         {
-            var rabbitMQConfig = provider.GetRequiredService<IOptions<RabbitMQConfig>>().Value;
-            var factory = new ConnectionFactory();
-            factory.Uri = new Uri(rabbitMQConfig.ConnectionString);
-
-            var connection = factory.CreateConnection();
+            var connection = provider.GetRequiredService<IConnection>();
+            var rabbitMQConfig = provider.GetRequiredService<IOptions<RabbitMqConfig>>().Value;
             var channel = connection.CreateModel();
             channel.ExchangeDeclare(rabbitMQConfig.ExchangeName, ExchangeType.Headers, true, true);
+            channel.QueueDeclare(rabbitMQConfig.QueueName, true, false, false);
 
             channel.Close();
-            connection.Close();
-        }
+            //connection.Close();
+            //var rabbitMQConfig = provider.GetRequiredService<IOptions<RabbitMqConfig>>().Value;
+            //var factory = new ConnectionFactory();
+            //factory.Uri = new Uri(rabbitMQConfig.ConnectionString);
 
+            //using (var connection = factory.CreateConnection())
+            //{
+            //    using (var channel = connection.CreateModel())
+            //    {
+            //        channel.ExchangeDeclare(rabbitMQConfig.ExchangeName, ExchangeType.Headers, true, true);
+            //        channel.QueueDeclare(rabbitMQConfig.QueueName, true, false, false);
+            //    }
+            //}
+        }
     }
 }
