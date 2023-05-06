@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace MessageQueues.Task1.DataCapturingServicePdf.Tests.Services
 {
     [TestFixture]
-    public class FileTransferingTests
+    public class FileTransferingServiceTests
     {
         private const int LoremIpsumFileSize = 100354;
         private const string LoremIpsumFileName = "Lorem Ipsum.txt";

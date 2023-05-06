@@ -1,4 +1,5 @@
-﻿using MessageQueues.Task1.MainProcessingService.Interfaces;
+﻿using MessageQueues.Task1.MainProcessingService.Helpers;
+using MessageQueues.Task1.MainProcessingService.Interfaces;
 using MessageQueues.Task1.MainProcessingService.Models;
 using Microsoft.Extensions.Options;
 
@@ -17,14 +18,12 @@ namespace MessageQueues.Task1.MainProcessingService.Services
 
         public void StartProcessing() 
         {
-            var dataDirectory = $@"{_fileProcessingConfig.OutputDirectory}\";
-            var currentDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
-            var workingDirectory = Path.Combine(currentDirectory, dataDirectory);
+            var workingDirectory = DirectoryHelper.GetWorkingDirectory(AppContext.BaseDirectory, _fileProcessingConfig.OutputDirectory);
             
             _messageConsumer.StartConsuming(workingDirectory);
 
             Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }

@@ -3,12 +3,14 @@ using MessageQueues.Task1.MainProcessingService.Models;
 using MessageQueues.Task1.MainProcessingService.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
 
 namespace MessageQueues.Task1.MainProcessingService
 {
     public static class MainProcessingApp
     {
-        private const string RabbitMQSection = "RabbitMQConfig";
+        private const string RabbitMqSection = "RabbitMQConfig";
         private const string FileProcessingSection = "FileProcessingConfig";
         private static IConfiguration _configuration { get; set; }
 
@@ -31,10 +33,21 @@ namespace MessageQueues.Task1.MainProcessingService
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RabbitMQConfig>(_configuration.GetSection(RabbitMQSection));
+            services.Configure<RabbitMqConfig>(_configuration.GetSection(RabbitMqSection));
             services.Configure<FileProcessingConfig>(_configuration.GetSection(FileProcessingSection));
 
-            services.AddSingleton<IMessageConsumer, RabbitMQFileConsumer>();
+            services.AddSingleton<IConnection>(service => 
+            {
+                var rabbitMQConfig = service.GetRequiredService<IOptions<RabbitMqConfig>>().Value;
+                var factory = new ConnectionFactory();
+                factory.DispatchConsumersAsync = true;
+                factory.Uri = new Uri(rabbitMQConfig.ConnectionString);
+
+                var connection = factory.CreateConnection();
+
+                return connection;
+            });
+            services.AddSingleton<IMessageConsumer, RabbitMqFileConsumer>();
             services.AddScoped<IProcessingService, FileProcessingService>();
         }
     }

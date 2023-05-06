@@ -1,7 +1,7 @@
 ﻿
 namespace MessageQueues.Task1.MainProcessingService.Models
 {
-    public class RabbitMQConfig
+    public class RabbitMqConfig
     {
         public string ConnectionString { get; set; }
 
