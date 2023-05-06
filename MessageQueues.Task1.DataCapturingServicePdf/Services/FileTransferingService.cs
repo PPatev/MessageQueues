@@ -25,13 +25,7 @@ namespace MessageQueues.Task1.DataCapturingServicePdf.Services
                 var fileName = Path.GetFileName(filePath);
 
                 Console.WriteLine($"Press Enter to start transfering file {fileName}");
-                //ConsoleKeyInfo keyInfo = Console.ReadKey();
-
-                //if (keyInfo.Key == ConsoleKey.Enter)
-                //{ 
-                //    SendFile(filePath);
-                //    Console.WriteLine($"File {fileName} sent succesfully");
-                //}
+                Console.ReadLine();
 
                 SendFile(filePath);
                 Console.WriteLine($"File {fileName} sent succesfully");

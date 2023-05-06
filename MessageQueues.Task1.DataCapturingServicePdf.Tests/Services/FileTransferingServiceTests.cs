@@ -1,5 +1,4 @@
 ﻿
-using AutoFixture;
 using FluentAssertions;
 using MessageQueues.Task1.DataCapturingServicePdf.Intefaces;
 using MessageQueues.Task1.DataCapturingServicePdf.Models;
@@ -24,6 +23,9 @@ namespace MessageQueues.Task1.DataCapturingServicePdf.Tests.Services
         [SetUp]
         public void Setup()
         {
+            var input = new StringReader("d");
+            Console.SetIn(input);
+
             _fileTransferOptions = new Mock<IOptions<FileTransferConfig>>();
             _fileTransferOptions.SetupGet(x => x.Value)
                 .Returns(new FileTransferConfig

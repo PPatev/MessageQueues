@@ -57,19 +57,6 @@ namespace MessageQueues.Task1.DataCapturingServicePdf
             channel.QueueDeclare(rabbitMQConfig.QueueName, true, false, false);
 
             channel.Close();
-            //connection.Close();
-            //var rabbitMQConfig = provider.GetRequiredService<IOptions<RabbitMqConfig>>().Value;
-            //var factory = new ConnectionFactory();
-            //factory.Uri = new Uri(rabbitMQConfig.ConnectionString);
-
-            //using (var connection = factory.CreateConnection())
-            //{
-            //    using (var channel = connection.CreateModel())
-            //    {
-            //        channel.ExchangeDeclare(rabbitMQConfig.ExchangeName, ExchangeType.Headers, true, true);
-            //        channel.QueueDeclare(rabbitMQConfig.QueueName, true, false, false);
-            //    }
-            //}
         }
     }
 }

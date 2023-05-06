@@ -1,5 +1,4 @@
-﻿
-using AutoFixture;
+﻿using AutoFixture;
 using FluentAssertions;
 using MessageQueues.Task1.DataCapturingServicePdf.Models;
 using MessageQueues.Task1.DataCapturingServicePdf.Services;
@@ -7,8 +6,6 @@ using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
 using RabbitMQ.Client;
-using System.Reflection.PortableExecutable;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MessageQueues.Task1.DataCapturingServicePdf.Tests.Services
 {
@@ -85,7 +82,6 @@ namespace MessageQueues.Task1.DataCapturingServicePdf.Tests.Services
         public void SendBytes_OnIncorrectArguments_ShouldThrowArgumentException(string fileName, string fileType, IList<byte[]> fileBytes)
         { 
             var act = () => _rabbitMqFileProducer.SendBytes(fileName, fileType, fileBytes);
-            //void BasicPublish(string exchange, string routingKey, bool mandatory, IBasicProperties basicProperties, ReadOnlyMemory< byte > body);
 
             act.Should().Throw<ArgumentException>();
             _channel.Verify(x => x.BasicPublish(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<IBasicProperties>(), It.IsAny<ReadOnlyMemory<byte>>()), Times.Never);
