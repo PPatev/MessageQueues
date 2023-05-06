@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageQueues.Task1.DataCap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageQueues.Task1.MainProcessingService", "MessageQueues.Task1.MainProcessingService\MessageQueues.Task1.MainProcessingService.csproj", "{F0E4985D-9E37-4C17-9001-60FA6FC3ADF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageQueues.Task1.DataCapturingServicePdf.Tests", "MessageQueues.Task1.DataCapturingServicePdf.Tests\MessageQueues.Task1.DataCapturingServicePdf.Tests.csproj", "{94E6C325-6169-4CE7-8748-8A3CAD8C9145}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageQueues.Task1.DataCapturingServicePdf.Tests", "MessageQueues.Task1.DataCapturingServicePdf.Tests\MessageQueues.Task1.DataCapturingServicePdf.Tests.csproj", "{94E6C325-6169-4CE7-8748-8A3CAD8C9145}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageQueues.Task1.MainProcessingService.Tests", "MessageQueues.Task1.MainProcessingService.Tests\MessageQueues.Task1.MainProcessingService.Tests.csproj", "{EA56688A-0EF5-44EE-B712-9A25514D4E7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageQueues.Task1.MainProcessingService.Tests", "MessageQueues.Task1.MainProcessingService.Tests\MessageQueues.Task1.MainProcessingService.Tests.csproj", "{EA56688A-0EF5-44EE-B712-9A25514D4E7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Theory", "Theory", "{8435C3FE-ADE7-408C-A305-1B7E1F5C4212}"
+	ProjectSection(SolutionItems) = preProject
+		Theory.txt = Theory.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
