@@ -1,5 +1,5 @@
 ﻿
-namespace MessageQueues.Task1.DataCapturingServicePdf.Models
+namespace MessageQueues.Task1.MainProcessingService.Models
 {
     public class RabbitMqConfig
     {
@@ -7,8 +7,8 @@ namespace MessageQueues.Task1.DataCapturingServicePdf.Models
 
         public string ExchangeName { get; set; }
 
-        public string RoutingKey { get; set; }
-
         public string QueueName { get; set; }
+
+        public IDictionary<string, object> Headers { get; set; }
     }
 }

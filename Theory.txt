@@ -1,0 +1,67 @@
+
+1) What is a message queue? What do message queues store and transfer? 
+A message queue is a component of messaging middleware solutions that enables independent applications and services to exchange information. 
+Message queues store “messages”—packets of data that applications create for other applications to consume—in the order they are transmitted 
+until the consuming application can process them. This enables messages to wait safely until the receiving application is ready, 
+so if there is a problem with the network or receiving application, the messages in the message queue are not lost.
+
+2) Describe the publisher/subscriber pattern. The difference between Pub/Sub and Observable patterns.
+Publish–subscribe is a messaging pattern where senders of messages, called publishers, 
+do not program the messages to be sent directly to specific receivers, called subscribers, 
+but instead categorize published messages into classes without knowledge of which subscribers, if any, there may be. 
+Similarly, subscribers express interest in one or more classes and only receive messages that are of interest, 
+without knowledge of which publishers, if any, there are. 
+In the Observer pattern, the data provider knows the observer. In the Pub-Sub pattern, 
+the publisher does not know about its subscribers, and these two groups can exist and operate without each other. 
+The data exchange in Pub-Sub happens through the bridging component, the broker.
+Pub-Sub patterns promote a decoupled architecture, unlike the Observer pattern.
+
+3) What is Message Bus? How does it work? 
+The Message bus provides us a messaging infrastructure for one or more applications to communicate messages to one or more other applications.
+Message Bus does not guarantee first in first out. Subscribers subscribed to Message Bus can receive published messages without knowing about the publisher.
+Within a message bus, you typically send events to a ‘topic’ (instead of a queue) which is then received by one or more services — unlike a single service within a queue.
+Message bus allows more than one service to subscribe to a topic. This allows you to have many systems react to a single event, and reduces coupling from your event to your workers.
+
+4) What is the difference between message queue and web services? 
+When you use a web service you have a client and a server:
+    If the server fails the client must take responsibility to handle the error.
+    When the server is working again the client is responsible of resending it.
+    If the server gives a response to the call and the client fails the operation is lost.
+    You don't have contention, that is: if million of clients call a web service on one server in a second, most probably your server will go down.
+    You can expect an immediate response from the server, but you can handle asynchronous calls too.
+When you use a message queue like RabbitMQ, Beanstalkd, ActiveMQ, IBM MQ Series, Tuxedo you expect different and more fault tolerant results:
+    If the server fails, the queue persist the message (optionally, even if the machine shutdown).
+    When the server is working again, it receives the pending message.
+    If the server gives a response to the call and the client fails, if the client didn't acknowledge the response the message is persisted.
+    You have contention, you can decide how many requests are handled by the server (call it worker instead).
+    You don't expect an immediate synchronous response, but you can implement/simulate synchronous calls.
+
+
+5) Describe the difference between RabbitMQ and Kafka. Provide some use cases for each of them: in which scenarios you’ll use RabbitMQ, Kafka?
+
+Kafka vs RabbitMQ                  RabbitMQ                         Kafka
+
+Performance              4K-10K messages per second      1 million messages per second
+
+Message Retention         Acknowledgment based            Policy-based (e.g., 30 days)
+
+Data Type                   Transactional                       Operational
+
+Consumer Mode          Smart broker/dumb consumer         Dumb broker/smart consumer
+
+Topology               Exchange type: Direct,               Publish/subscribe based
+                    Fan out, Topic, Header-based     
+
+Payload Size              No constraints                     Default 1MB limit
+
+Usage Cases              Simple use cases              Massive data/high throughput cases
+
+Kafka is best used for streaming from A to B without resorting to complex routing, but with maximum throughput. 
+It’s also ideal for event sourcing, stream processing, and carrying out modeling changes to a system as a sequence of events. 
+Kafka is also suitable for processing data in multi-stage pipelines. Use Kafka if you need a framework for storing, reading, re-reading, 
+and analyzing streaming data. It’s ideal for routinely audited systems or that store their messages permanently. 
+Breaking it down even further, Kafka shines with real-time processing and analyzing data.
+
+Use RabbitMQ to perform complex routing to consumers and integrate multiple applications and services with non-trivial routing logic.
+RabbitMQ is perfect for web servers that need rapid request-response. It also shares loads between workers under high load (20K+ messages/second). 
+RabbitMQ can also handle background jobs or long-running tasks like PDF conversion, file scanning, or image scaling.
